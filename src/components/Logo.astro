@@ -1,0 +1,33 @@
+---
+// Logo provisoire : le cercle de flammes de Nataraja + le nom.
+// TODO : remplacer par le vrai logo quand il existe.
+---
+
+<span class="logo">
+  <svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true">
+    <defs>
+      <linearGradient id="logo-flame" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ff9f1c" />
+        <stop offset="1" stop-color="#ec3a75" />
+      </linearGradient>
+    </defs>
+    <circle cx="20" cy="20" r="13" fill="none" stroke="url(#logo-flame)" stroke-width="2.5" />
+    {Array.from({ length: 12 }, (_, i) => (
+      <path d="M20 1.5 L22 6 L18 6 Z" fill="url(#logo-flame)" transform={`rotate(${i * 30} 20 20)`} />
+    ))}
+    <circle cx="20" cy="20" r="3.5" fill="#f6eee6" />
+  </svg>
+  <span class="name">Nataraja</span>
+</span>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .name {
+    font-family: var(--display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+</style>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact, url } from '../data/site';
+---
+
+<Base title="Merci">
+  <div class="container page-head">
+    <p class="eyebrow">Demande envoyée</p>
+    <h1 class="title-xl">Merci, <span class="text-flame">à très vite !</span></h1>
+    <p class="lede">On a bien reçu votre demande et on vous rappelle au numéro indiqué. Une urgence ? Appelez-nous au {contact.phone}.</p>
+    <div><a class="btn btn-ghost" href={url('/')}>Retour à l'accueil</a></div>
+  </div>
+</Base>

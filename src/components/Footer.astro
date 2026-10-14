@@ -1,0 +1,65 @@
+---
+import { contact, nav, url } from '../data/site';
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="big">
+      <p class="eyebrow">Un show, un stage, une question ?</p>
+      <a class="call" href={url('/devis')}>On en parle <span class="text-flame">→</span></a>
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <Logo />
+        <p class="muted">Compagnie de danse indienne & Bollywood. Shows, stages et bien-être.</p>
+      </div>
+      <div class="col">
+        <h4>Contact</h4>
+        <a href={`tel:${contact.phoneHref}`}>{contact.phone}</a>
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        <span class="muted">{contact.zone}</span>
+      </div>
+      <div class="col">
+        <h4>Le site</h4>
+        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        <a href={url('/devis')}>Devis</a>
+      </div>
+      <div class="col">
+        <h4>Suivre</h4>
+        <a href={`https://instagram.com/${contact.instagram}`} rel="noopener" target="_blank">Instagram</a>
+      </div>
+    </div>
+
+    <div class="legal">
+      <span>© {year} Nataraja</span>
+      <span>Photos mariage : @lieselfrth</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid var(--line); background: var(--night-2); padding-block: clamp(64px, 8vw, 110px) 32px; }
+  .big { display: grid; gap: 1rem; padding-bottom: clamp(48px, 6vw, 80px); border-bottom: 1px solid var(--line); }
+  .call {
+    font-family: var(--display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(2.6rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .call:hover .text-flame { margin-left: 0.15em; }
+  .grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2rem; padding-block: 48px; }
+  .col { display: grid; gap: 0.55rem; align-content: start; min-width: 0; }
+  .col h4 { font-size: 0.8rem; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 0.4rem; }
+  .col a { text-decoration: none; overflow-wrap: anywhere; }
+  .col a:hover { color: var(--saffron); }
+  .muted { color: var(--muted); font-size: 0.92rem; max-width: 32ch; }
+  .legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.82rem; color: var(--muted); padding-top: 24px; border-top: 1px solid var(--line); }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+</style>

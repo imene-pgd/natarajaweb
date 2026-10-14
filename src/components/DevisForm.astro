@@ -1,0 +1,174 @@
+---
+import { contact, url } from '../data/site';
+// Formulaire géré par Netlify Forms (data-netlify) : les demandes arrivent
+// dans le tableau de bord Netlify et peuvent être transférées par e-mail.
+---
+
+<div class="devis">
+  <aside class="side">
+    <p class="eyebrow">Devis gratuit</p>
+    <h2 class="title-lg">Parlons de votre <span class="text-flame">événement</span></h2>
+    <p class="lede">Mariage, EVJF, anniversaire, gala ou inscription à un stage : laissez-nous vos coordonnées, on vous rappelle pour construire le moment avec vous.</p>
+
+    <div class="direct">
+      <span class="label">Vous préférez appeler ?</span>
+      <a class="phone" href={`tel:${contact.phoneHref}`}>{contact.phone}</a>
+      <a class="mail" href={`mailto:${contact.email}`}>{contact.email}</a>
+    </div>
+  </aside>
+
+  <form name="devis" method="POST" action={url('/merci')} data-netlify="true" netlify-honeypot="site-web" class="form">
+    <input type="hidden" name="form-name" value="devis" />
+    <p hidden><label>Ne pas remplir <input name="site-web" /></label></p>
+
+    <div class="field">
+      <label for="nom">Nom et prénom *</label>
+      <input id="nom" name="nom" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for="telephone">Téléphone *</label>
+      <input id="telephone" name="telephone" type="tel" autocomplete="tel" required pattern="[0-9+ .()-]{8,}" placeholder="06 12 34 56 78" />
+    </div>
+    <div class="field">
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" autocomplete="email" />
+    </div>
+    <div class="field">
+      <label for="type">Votre demande *</label>
+      <select id="type" name="type" required>
+        <option value="">Choisir…</option>
+        <option>Mariage</option>
+        <option>EVJF</option>
+        <option>Anniversaire</option>
+        <option>Gala / caritatif</option>
+        <option>Entreprise</option>
+        <option>Stage ou cours Nataraja Event</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="date">Date de l'événement</label>
+      <input id="date" name="date" type="date" />
+    </div>
+    <div class="field">
+      <label for="lieu">Ville ou lieu</label>
+      <input id="lieu" name="lieu" />
+    </div>
+    <div class="field">
+      <label for="invites">Nombre d'invités</label>
+      <input id="invites" name="invites" type="number" min="1" inputmode="numeric" />
+    </div>
+    <div class="field">
+      <label for="rappel">Quand vous rappeler ?</label>
+      <select id="rappel" name="rappel">
+        <option>En journée</option>
+        <option>Le soir après 18h</option>
+        <option>Le week-end</option>
+      </select>
+    </div>
+
+    <fieldset class="field full">
+      <legend>Ce qui vous intéresse</legend>
+      <div class="chips">
+        {['Show', 'Initiation des invités', 'Flashmob', 'Atelier EVJF', 'Stage', 'Jeudi bien-être'].map((o, i) => (
+          <label class="chip">
+            <input type="checkbox" name="formules" value={o} id={`formule-${i}`} />
+            <span>{o}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="field full">
+      <label for="message">Votre message</label>
+      <textarea id="message" name="message" rows="5" placeholder="Racontez-nous votre projet, l'ambiance, la musique…"></textarea>
+    </div>
+
+    <div class="foot full">
+      <p>* Champs obligatoires. Vos informations servent uniquement à vous recontacter.</p>
+      <button class="btn btn-flame" type="submit">Envoyer ma demande <span class="arrow">→</span></button>
+    </div>
+    <p class="preview-note full" data-preview-note hidden>Version d'aperçu : le formulaire sera actif une fois le site en ligne sur son hébergement définitif.</p>
+  </form>
+</div>
+
+<script>
+  // Sur l'aperçu GitHub Pages, le formulaire ne peut rien envoyer (pas de Netlify) :
+  // on affiche un message au lieu d'une erreur.
+  if (location.hostname.endsWith('github.io')) {
+    const form = document.querySelector<HTMLFormElement>('form[name="devis"]');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const note = form.querySelector<HTMLElement>('[data-preview-note]');
+      if (note) note.hidden = false;
+    });
+  }
+
+  // Pré-remplit la demande quand on arrive depuis l'agenda (/devis?sujet=…).
+  const sujet = new URLSearchParams(location.search).get('sujet');
+  if (sujet) {
+    const type = document.querySelector<HTMLSelectElement>('#type');
+    const msg = document.querySelector<HTMLTextAreaElement>('#message');
+    if (type) type.value = 'Stage ou cours Nataraja Event';
+    if (msg && !msg.value) msg.value = `Je souhaite m'inscrire : ${sujet}`;
+  }
+</script>
+
+<style>
+  .devis { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+  .side { display: grid; gap: 1.4rem; position: sticky; top: 120px; }
+  .direct { display: grid; gap: 0.3rem; margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .phone {
+    font-family: var(--display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .phone:hover { color: var(--saffron); }
+  .mail { color: var(--muted); text-decoration: none; }
+
+  .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem 1.2rem;
+    background: var(--night-2);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(1.4rem, 3.5vw, 2.6rem);
+  }
+  .field { display: grid; gap: 0.45rem; min-width: 0; border: 0; padding: 0; margin: 0; }
+  .full { grid-column: 1 / -1; }
+  label, legend { font-size: 0.82rem; font-weight: 600; color: var(--muted); padding: 0; }
+  legend { margin-bottom: 0.6rem; }
+  input, select, textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--ivory);
+    background: var(--night);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.85em 1em;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--saffron); outline: none; }
+  textarea { resize: vertical; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip { position: relative; cursor: pointer; color: var(--ivory); font-weight: 500; }
+  .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .chip span { display: inline-block; padding: 0.55em 1em; border: 1px solid var(--line); border-radius: 999px; transition: all 0.2s; }
+  .chip input:checked + span { background: var(--flame); color: var(--night); border-color: transparent; }
+  .chip input:focus-visible + span { outline: 2px solid var(--saffron); outline-offset: 2px; }
+  .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+  .preview-note { padding: 1rem 1.2rem; border-radius: 12px; background: rgb(255 159 28 / 0.12); color: var(--ivory); font-weight: 600; }
+  .foot p { font-size: 0.8rem; color: var(--muted); max-width: 38ch; }
+
+  @media (max-width: 900px) {
+    .devis { grid-template-columns: 1fr; }
+    .side { position: static; }
+  }
+  @media (max-width: 560px) { .form { grid-template-columns: 1fr; } }
+</style>

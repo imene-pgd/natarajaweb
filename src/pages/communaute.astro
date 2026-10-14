@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import groupe from '../assets/groupe-ihope.jpg';
+import { contact, url } from '../data/site';
+---
+
+<Base title="La communauté" description="Nataraja, une bande qui danse : l'esprit de la compagnie et comment nous rejoindre.">
+  <div class="container page-head">
+    <p class="eyebrow">La communauté</p>
+    <h1 class="title-xl">Une bande<br /><span class="text-flame">qui danse.</span></h1>
+  </div>
+
+  <section class="container story">
+    <div class="photo" data-reveal>
+      <Image src={groupe} alt="Les membres de Nataraja en lehengas, fleurs à la main, après un show à l'IHOPe de Lyon" widths={[600, 1000, 1400]} sizes="(max-width: 860px) 100vw, 45vw" />
+      <p class="caption">Après notre show à l'IHOPe, Institut d'Hématologie et d'Oncologie Pédiatrique de Lyon.</p>
+    </div>
+    <div class="text" data-reveal>
+      <p class="big">Nataraja, c'est le nom de Shiva danseur, celui qui fait tourner le monde au rythme de sa danse, entouré d'un cercle de flammes.</p>
+      <p>On a choisi ce nom pour l'énergie, pas pour la solennité. Nataraja n'est pas l'école d'une professeure reconnue : c'est un groupe. Les danseuses qui montent sur scène dans les mariages sont les mêmes qui vous accueillent le jeudi soir.</p>
+      <p>Depuis un an, on danse pour des mariages, des EVJF, des anniversaires et des galas caritatifs. Aujourd'hui, on ouvre le cercle avec Nataraja Event : des stages, de la self-danse et des soirées bien-être pour que chacun puisse venir danser avec nous.</p>
+      <div class="join">
+        <a class="btn btn-flame" href={url('/event')}>Venir à un rendez-vous <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href={`https://instagram.com/${contact.instagram}`} target="_blank" rel="noopener">Nous suivre sur Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ul class="values">
+        <li data-reveal><h2 class="title-md">Tous niveaux</h2><p>Premier cours ou dix ans de danse, tout le monde a sa place.</p></li>
+        <li data-reveal><h2 class="title-md">Un groupe, pas un maître</h2><p>On apprend les unes des autres, dans la bienveillance.</p></li>
+        <li data-reveal><h2 class="title-md">La fête d'abord</h2><p>La joie et les couleurs de la danse indienne, sans le côté élitiste.</p></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .story { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .photo :global(img) { border-radius: var(--radius); width: 100%; }
+  .caption { font-size: 0.82rem; color: var(--muted); margin-top: 0.7rem; }
+  .text { display: grid; gap: 1.3rem; color: var(--muted); max-width: 60ch; }
+  .big { font-size: clamp(1.3rem, 2.2vw, 1.75rem); line-height: 1.35; color: var(--ivory); }
+  .join { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.8rem; }
+  .values { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  .values li { display: grid; gap: 0.8rem; padding-top: 1.4rem; border-top: 2px solid; border-image: var(--flame) 1; }
+  .values p { color: var(--muted); }
+  @media (max-width: 860px) { .story, .values { grid-template-columns: 1fr; } }
+</style>

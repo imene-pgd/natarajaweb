@@ -1,0 +1,12 @@
+---
+import { url } from '../data/site';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page introuvable">
+  <div class="container page-head">
+    <p class="eyebrow">Erreur 404</p>
+    <h1 class="title-xl">Cette page a <span class="text-flame">quitté la piste.</span></h1>
+    <div><a class="btn btn-flame" href={url('/')}>Retour à l'accueil</a></div>
+  </div>
+</Base>

@@ -1,0 +1,63 @@
+---
+import { url } from '../data/site';
+import Base from '../layouts/Base.astro';
+import EventList from '../components/EventList.astro';
+import { recurring, upcoming } from '../data/events';
+
+const formats = [
+  { title: 'Stages', text: "Bollywood, afro, contemporain… Un après-midi pour apprendre une chorégraphie complète, quel que soit votre niveau." },
+  { title: 'Self-danse', text: "Danser pour soi, se reconnecter à son corps, sans miroir ni jugement." },
+  { title: 'Jeudis bien-être', text: "Le dernier jeudi de chaque mois, une soirée douce : mouvement, respiration et lâcher-prise." },
+];
+---
+
+<Base title="Nataraja Event" description="Stages de danse, self-danse et jeudis bien-être à Lyon, ouverts à tous les niveaux.">
+  <div class="container page-head">
+    <p class="eyebrow">Nataraja Event</p>
+    <h1 class="title-xl">Vous venez<br /><span class="text-flame">danser avec nous.</span></h1>
+    <p class="lede">Des rendez-vous ouverts à toutes et à tous, Bollywood ou pas. Pas besoin de savoir danser : on vous montre, on rigole, et on recommence.</p>
+  </div>
+
+  <section class="container formats">
+    {formats.map((f) => (
+      <article data-reveal>
+        <h2 class="title-md">{f.title}</h2>
+        <p>{f.text}</p>
+      </article>
+    ))}
+    <article class="soon" data-reveal>
+      <span class="badge">Bientôt</span>
+      <h2 class="title-md">{upcoming.title}</h2>
+      <p>{upcoming.description} Laissez votre numéro pour être prévenu·e en premier.</p>
+      <a class="btn btn-ghost" href={url('/devis?sujet=Bootcamp')}>Être prévenu·e</a>
+    </article>
+  </section>
+
+  <section class="section" id="agenda">
+    <div class="container">
+      <div class="head" data-reveal>
+        <p class="eyebrow">Agenda</p>
+        <h2 class="title-lg">Prochaines dates</h2>
+      </div>
+      <EventList />
+      <div class="recurring">
+        {recurring.map((r) => (
+          <p><strong>{r.title}</strong> · {r.when} · {r.description}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .formats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+  .formats article { display: grid; gap: 0.8rem; align-content: start; padding: 1.8rem 1.4rem; border-radius: var(--radius); background: var(--night-2); border: 1px solid var(--line); }
+  .formats p { color: var(--muted); font-size: 0.95rem; }
+  .soon { border-style: dashed !important; background: transparent !important; justify-items: start; }
+  .badge { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.4em 0.9em; border-radius: 999px; background: var(--flame); color: var(--night); }
+  .head { display: grid; gap: 1.2rem; margin-bottom: 40px; }
+  .recurring { margin-top: 2rem; color: var(--muted); }
+  .recurring strong { color: var(--ivory); }
+  @media (max-width: 1000px) { .formats { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .formats { grid-template-columns: 1fr; } }
+</style>

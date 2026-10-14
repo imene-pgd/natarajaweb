@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import DevisForm from '../components/DevisForm.astro';
+---
+
+<Base title="Devis" description="Demandez un devis gratuit pour un show Nataraja : mariage, EVJF, anniversaire, gala.">
+  <section class="container wrap">
+    <DevisForm />
+  </section>
+</Base>
+
+<style>
+  .wrap { padding-block: clamp(130px, 16vw, 190px) clamp(72px, 10vw, 120px); }
+</style>

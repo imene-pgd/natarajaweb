@@ -1,0 +1,40 @@
+---
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+const row = [...items, ...items];
+---
+
+<div class="marquee" aria-label={items.join(', ')}>
+  <div class="track" aria-hidden="true">
+    {row.map((item) => (
+      <span class="item">{item}<i></i></span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    padding-block: 22px;
+    background: var(--night);
+  }
+  .track { display: flex; width: max-content; animation: slide 40s linear infinite; }
+  .item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2.2rem;
+    padding-right: 2.2rem;
+    font-family: var(--display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .item:nth-child(even) { color: transparent; -webkit-text-stroke: 1px var(--ivory); }
+  .item i { width: 12px; height: 12px; border-radius: 50%; background: var(--flame); }
+  @keyframes slide { to { transform: translateX(-50%); } }
+</style>

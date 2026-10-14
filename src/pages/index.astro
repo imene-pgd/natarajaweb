@@ -1,0 +1,145 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Marquee from '../components/Marquee.astro';
+import EventList from '../components/EventList.astro';
+import { partners, url } from '../data/site';
+import piste from '../assets/show-mariage-piste.jpg';
+import duo from '../assets/show-mariage-duo.jpg';
+import groupe from '../assets/groupe-ihope.jpg';
+---
+
+<Base>
+  <section class="hero">
+    <Image src={piste} alt="Deux danseuses Nataraja dansent au milieu des invités d'un mariage, sous les lustres" class="hero-img" widths={[800, 1400, 2000]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <div class="hero-shade"></div>
+    <div class="container hero-inner">
+      <p class="eyebrow">Compagnie de danse indienne & Bollywood · Lyon</p>
+      <h1 class="hero-title">
+        <span>On danse</span>
+        <span class="text-flame">ensemble.</span>
+      </h1>
+      <div class="hero-foot">
+        <p class="lede">Des shows pour vos mariages, EVJF et galas. Des stages, de la self-danse et des jeudis bien-être ouverts à toutes et à tous.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-flame" href={url('/devis')}>Demander un devis <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href={url('/event')}>Voir l'agenda</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Marquee items={['Mariages', 'EVJF', 'Anniversaires', 'Galas', 'Stages', 'Self-danse', 'Jeudis bien-être']} />
+
+  <section class="section">
+    <div class="container">
+      <div class="intro" data-reveal>
+        <p class="eyebrow">Deux univers</p>
+        <h2 class="title-lg">Vous nous invitez,<br />ou vous nous <span class="text-flame">rejoignez</span>.</h2>
+      </div>
+
+      <div class="worlds">
+        <a class="world" href={url('/shows')} data-reveal>
+          <Image src={duo} alt="Deux danseuses Nataraja en costumes argentés pendant un show de mariage" widths={[600, 1000, 1400]} sizes="(max-width: 860px) 100vw, 50vw" />
+          <div class="world-body">
+            <span class="tag">La Compagnie</span>
+            <h3 class="title-md">On vient danser chez vous</h3>
+            <p>Mariages, EVJF, anniversaires, galas caritatifs. Un show clé en main, en costumes, et vos invités sur la piste.</p>
+            <span class="more">Découvrir les shows →</span>
+          </div>
+        </a>
+        <a class="world" href={url('/event')} data-reveal>
+          <Image src={groupe} alt="Les membres de Nataraja en lehengas dorés et orangés, fleurs à la main" widths={[600, 1000, 1400]} sizes="(max-width: 860px) 100vw, 50vw" />
+          <div class="world-body">
+            <span class="tag">Nataraja Event</span>
+            <h3 class="title-md">Vous venez danser avec nous</h3>
+            <p>Stages Bollywood et d'autres styles, self-danse, le dernier jeudi du mois bien-être, et bientôt des bootcamps.</p>
+            <span class="more">Voir l'agenda →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section agenda">
+    <div class="container">
+      <div class="agenda-head" data-reveal>
+        <div>
+          <p class="eyebrow">Prochains rendez-vous</p>
+          <h2 class="title-lg">Venez comme<br />vous êtes.</h2>
+        </div>
+        <a class="btn btn-ghost" href={url('/event')}>Tout l'agenda <span class="arrow">→</span></a>
+      </div>
+      <EventList limit={3} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container manifesto">
+      <div class="quote" data-reveal>
+        <p class="eyebrow">La communauté</p>
+        <h2 class="title-lg">Pas un prof sur une estrade. <span class="text-flame">Une bande qui danse.</span></h2>
+        <p class="lede">Chez Nataraja, on garde la joie et les couleurs de la danse indienne, sans le côté élitiste. Premier cours ou dix ans de pratique, tout le monde a sa place dans le cercle.</p>
+        <a class="btn btn-ghost" href={url('/communaute')}>Nous découvrir <span class="arrow">→</span></a>
+      </div>
+      <ul class="values" data-reveal>
+        <li><strong>Tous niveaux</strong><span>Aucun prérequis, on vous montre.</span></li>
+        <li><strong>Un groupe</strong><span>Les danseuses de la compagnie vous accueillent aussi le jeudi.</span></li>
+        <li><strong>La fête d'abord</strong><span>On danse pour le plaisir avant la performance.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="partners">
+    <div class="container partners-inner">
+      <span class="eyebrow">Ils nous font confiance</span>
+      <ul>
+        {partners.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; min-height: min(100svh, 980px); display: flex; align-items: flex-end; overflow: hidden; }
+  .hero :global(.hero-img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; animation: zoom 18s ease-out both; }
+  .hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(15 11 13 / 0.55) 0%, rgb(15 11 13 / 0.1) 35%, rgb(15 11 13 / 0.75) 72%, var(--night) 100%); }
+  .hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; padding-top: 140px; padding-bottom: clamp(48px, 7vw, 96px); }
+  .hero-title { display: grid; font-size: clamp(2.3rem, 10.5vw, 11rem); line-height: 0.88; }
+  .hero-foot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.6rem 3rem; }
+  .hero-foot .lede { color: var(--ivory); opacity: 0.85; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  @keyframes zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+  .intro { display: grid; gap: 1.2rem; margin-bottom: clamp(40px, 6vw, 72px); }
+  .worlds { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .world { position: relative; display: block; border-radius: var(--radius); overflow: hidden; text-decoration: none; aspect-ratio: 4 / 5; isolation: isolate; }
+  .world :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s cubic-bezier(.2,.7,.2,1); z-index: -2; }
+  .world::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgb(15 11 13 / 0.92) 100%); z-index: -1; }
+  .world:hover :global(img) { transform: scale(1.06); }
+  .world-body { position: absolute; inset: auto 0 0 0; padding: clamp(1.4rem, 3vw, 2.4rem); display: grid; gap: 0.7rem; }
+  .world-body p { color: var(--muted); max-width: 42ch; }
+  .tag { justify-self: start; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.4em 0.9em; border-radius: 999px; background: var(--flame); color: var(--night); }
+  .more { font-weight: 700; color: var(--saffron); }
+
+  .agenda { background: var(--night-2); }
+  .agenda-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 48px; }
+  .agenda-head > div { display: grid; gap: 1.2rem; }
+
+  .manifesto { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(2rem, 6vw, 6rem); align-items: end; }
+  .quote { display: grid; gap: 1.5rem; justify-items: start; }
+  .values { list-style: none; margin: 0; padding: 0; display: grid; }
+  .values li { display: grid; gap: 0.2rem; padding-block: 1.2rem; border-top: 1px solid var(--line); }
+  .values strong { font-family: var(--display); font-stretch: 125%; text-transform: uppercase; font-size: 1.1rem; }
+  .values span { color: var(--muted); font-size: 0.95rem; }
+
+  .partners { border-top: 1px solid var(--line); padding-block: 40px; }
+  .partners-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .partners ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2.5rem; }
+  .partners li { font-family: var(--display); font-stretch: 125%; font-weight: 800; font-size: 1.4rem; text-transform: uppercase; opacity: 0.6; }
+
+  @media (max-width: 860px) {
+    .worlds, .manifesto { grid-template-columns: 1fr; }
+    .world { aspect-ratio: 3 / 4; }
+  }
+</style>

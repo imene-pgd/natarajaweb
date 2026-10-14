@@ -1,0 +1,85 @@
+---
+import { url } from '../data/site';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import duo from '../assets/show-mariage-duo.jpg';
+import piste from '../assets/show-mariage-piste.jpg';
+
+const occasions = [
+  { title: 'Mariages', text: "Entrée des mariés, show pendant le dîner, ouverture de bal. On adapte la musique à votre histoire." },
+  { title: 'EVJF', text: "Show surprise pour la future mariée, ou atelier chorégraphie pour toute la bande." },
+  { title: 'Anniversaires', text: "Une touche Bollywood pour une soirée qui sort de l'ordinaire." },
+  { title: 'Galas & caritatif', text: "Des shows pour les associations et les causes qui nous tiennent à cœur, notamment avec ASP." },
+];
+
+const formules = [
+  { title: 'Show', text: "Un show en costumes, de 10 à 30 minutes selon le moment." },
+  { title: 'Show + initiation', text: "Après le show, on apprend quelques pas à vos invités et tout le monde danse." },
+  { title: 'Flashmob', text: "On prépare une chorégraphie surprise avec vos proches." },
+];
+---
+
+<Base title="Shows" description="Shows de danse Bollywood et indienne pour mariages, EVJF, anniversaires et galas à Lyon et en région.">
+  <div class="container page-head">
+    <p class="eyebrow">La Compagnie</p>
+    <h1 class="title-xl">On vient danser<br /><span class="text-flame">chez vous.</span></h1>
+    <p class="lede">Chaque show se construit avec vous : la musique, la durée, le nombre de danseuses et le moment où vos invités nous rejoignent sur la piste.</p>
+  </div>
+
+  <div class="container">
+    <div class="banner">
+      <Image src={piste} alt="Show Nataraja au milieu des invités d'un mariage" widths={[800, 1400, 2000]} sizes="100vw" />
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <ul class="occasions">
+        {occasions.map((o) => (
+          <li data-reveal>
+            <h2 class="title-md">{o.title}</h2>
+            <p>{o.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section formules-sec">
+    <div class="container split">
+      <div class="photo" data-reveal>
+        <Image src={duo} alt="Deux danseuses Nataraja en plein show" widths={[600, 1000]} sizes="(max-width: 860px) 100vw, 45vw" />
+      </div>
+      <div class="formules" data-reveal>
+        <p class="eyebrow">Formules</p>
+        <h2 class="title-lg">À la carte</h2>
+        <ul>
+          {formules.map((f) => (
+            <li><strong>{f.title}</strong><span>{f.text}</span></li>
+          ))}
+        </ul>
+        <a class="btn btn-flame" href={url('/devis')}>Demander un devis <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .banner { border-radius: var(--radius); overflow: hidden; aspect-ratio: 21 / 9; }
+  .banner :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .occasions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+  .occasions li { display: grid; gap: 0.8rem; align-content: start; padding: 1.8rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--night-2); }
+  .occasions p { color: var(--muted); font-size: 0.95rem; }
+  .formules-sec { background: var(--night-2); }
+  .split { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .photo { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 5; }
+  .photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .formules { display: grid; gap: 1.4rem; justify-items: start; }
+  .formules ul { list-style: none; margin: 0; padding: 0; width: 100%; }
+  .formules li { display: grid; gap: 0.2rem; padding-block: 1.1rem; border-top: 1px solid var(--line); }
+  .formules strong { font-family: var(--display); font-stretch: 125%; text-transform: uppercase; font-size: 1.15rem; }
+  .formules span { color: var(--muted); }
+  @media (max-width: 1000px) { .occasions { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; } .banner { aspect-ratio: 4 / 3; } }
+  @media (max-width: 520px) { .occasions { grid-template-columns: 1fr; } }
+</style>

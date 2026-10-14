@@ -1,0 +1,138 @@
+---
+import { nav, url } from '../data/site';
+import Logo from './Logo.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="header" data-header>
+  <div class="container bar">
+    <a href={url('/')} class="brand" aria-label="Nataraja, accueil"><Logo /></a>
+
+    <nav class="links" aria-label="Navigation principale">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="actions">
+      <a class="btn btn-flame cta" href={url('/devis')}>Devis</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Ouvrir le menu" data-burger>
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile" id="menu-mobile" hidden data-menu>
+    <nav class="container" aria-label="Navigation mobile">
+      <a href={url('/')}>Accueil</a>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href={url('/devis')}>Demander un devis</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    padding-top: env(safe-area-inset-top, 0px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .header.is-solid {
+    background: rgb(15 11 13 / 0.82);
+    backdrop-filter: blur(14px);
+    border-color: var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 18px;
+  }
+  .brand { text-decoration: none; }
+  .links { display: flex; gap: 2.2rem; }
+  .links a {
+    font-family: var(--display);
+    font-stretch: 112%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .links a:hover, .links a[aria-current='page'] { opacity: 1; }
+  .links a[aria-current='page'] { box-shadow: 0 2px 0 var(--saffron); }
+  .actions { display: flex; align-items: center; gap: 0.75rem; }
+  .cta { padding: 0.8em 1.4em; }
+
+  .burger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+  }
+  .burger span {
+    position: absolute;
+    left: 13px;
+    right: 13px;
+    height: 1.5px;
+    background: var(--ivory);
+    transition: transform 0.25s ease;
+  }
+  .burger span:first-child { top: 18px; }
+  .burger span:last-child { top: 25px; }
+  .burger[aria-expanded='true'] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .burger[aria-expanded='true'] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+  .mobile {
+    background: var(--night);
+    border-top: 1px solid var(--line);
+    min-height: calc(100dvh - 80px);
+  }
+  .mobile nav { display: grid; gap: 0.4rem; padding-block: 2rem; }
+  .mobile a {
+    font-family: var(--display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 9vw, 2.6rem);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-block: 0.3rem;
+  }
+  .mobile a:last-child { color: var(--saffron); }
+
+  @media (max-width: 860px) {
+    .links { display: none; }
+    .burger { display: block; }
+    .cta { display: none; }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+
+  const onScroll = () => header.classList.toggle('is-solid', window.scrollY > 40 || !menu.hidden);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  burger.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') !== 'true';
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    menu.hidden = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    onScroll();
+  });
+</script>
